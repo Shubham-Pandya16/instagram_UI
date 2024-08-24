@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,6 +51,144 @@ class _HomePageState extends State<HomePage> {
       // Body
       body: Stack(
         children: [
+          // Full Screen Measurements for Sizing Purposes
+          Container(
+            height: sHeight,
+            width: sWidth,
+            // Home Page
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  // Stories
+                  Container(
+                    height: sHeight * 0.15,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          // Add Story
+                          Container(
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      bottom: 10, left: 15, right: 15),
+                                  child: Column(
+                                    children: [
+                                      ClipOval(
+                                        child: Container(
+                                          padding: EdgeInsets.all(0.4),
+                                          decoration:
+                                              BoxDecoration(color: Colors.grey),
+                                          child: ClipOval(
+                                            child: Image.asset(
+                                              "assets/images/pfp/profile_picture.jpg",
+                                              height: sHeight * 0.1,
+                                              width: sHeight * 0.1,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "",
+                                        style: TextStyle(
+                                          fontSize: sHeight * 0.0145,
+                                          color: Colors.white70,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 27,
+                                  child: ClipOval(
+                                    child: Container(
+                                      padding: EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.red,
+                                            Colors.purple,
+                                            Colors.pink,
+                                            Colors.yellow,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        Icons.add,
+                                        size: iconSize * 0.9,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // Friends Stories
+                          Row(
+                            children: List.generate(5, (i) {
+                              return Container(
+                                margin: EdgeInsets.only(bottom: 10, right: 15),
+                                child: Column(
+                                  children: [
+                                    ClipOval(
+                                      child: Container(
+                                        padding: EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.red,
+                                              Colors.purple,
+                                              Colors.pink,
+                                              Colors.yellow,
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
+                                        ),
+                                        child: ClipOval(
+                                          child: Image.asset(
+                                            "assets/images/pfp/ana_pfp.jpg",
+                                            height: sHeight * 0.1,
+                                            width: sHeight * 0.1,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Text(
+                                      "ana_p_1206",
+                                      style: TextStyle(
+                                        fontSize: sHeight * 0.0145,
+                                        color: Colors.white70,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text("posts"),
+                  SizedBox(
+                    height: sHeight * 0.095,
+                  ),
+                ],
+              ),
+            ),
+          ),
           // Bottom Navigation Bar
           Positioned(
             bottom: sHeight * 0.02,
@@ -66,48 +206,62 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     // Home
                     Expanded(
-                      flex: 3,
-                      child: SvgPicture.asset(
-                        "assets/images/home.svg",
-                        color: Colors.white38,
-                      ),
-                    ),
+                        flex: 4,
+                        child: ShaderMask(
+                          shaderCallback: (Rect bounds) {
+                            return LinearGradient(
+                                    colors: [
+                                  Colors.red,
+                                  Colors.purple,
+                                  Colors.pink,
+                                  Colors.yellow,
+                                ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight)
+                                .createShader(bounds);
+                          },
+                          child: SvgPicture.asset(
+                            "assets/images/home.svg",
+                            color: Colors.white,
+                            height: iconSize,
+                          ),
+                        )),
 
                     // Search
                     Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: SvgPicture.asset(
-                        "assets/images/search.svg",
+                        "assets/images/search1.svg",
                         color: Colors.white38,
                       ),
                     ),
 
                     // Logo Camera
                     Expanded(
-                      flex: 3,
+                      flex: 5,
                       child: Container(),
                     ),
 
                     // Notifications
                     Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: SvgPicture.asset(
                         "assets/images/notifications.svg",
                         color: Colors.white38,
+                        height: iconSize,
                       ),
                     ),
 
                     // Profile
                     Expanded(
-                      flex: 3,
+                      flex: 4,
                       child: Center(
                         child: Container(
-                          width: 30,
+                          height: iconSize * 1.6,
                           child: ClipOval(
                             child: Image.asset(
-                              "assets/images/profile_picture.jpg",
-                              width: double.infinity,
-                              fit: BoxFit.fitWidth,
+                              "assets/images/pfp/profile_picture.jpg",
+                              fit: BoxFit.fitHeight,
                             ),
                           ),
                         ),
