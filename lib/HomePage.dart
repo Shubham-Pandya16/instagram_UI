@@ -3,6 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram_ui/MessagesPage.dart';
+import 'package:instagram_ui/ProfilePage.dart';
+import 'package:instagram_ui/data.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,8 +24,6 @@ class _HomePageState extends State<HomePage> {
     double iconSize = sHeight * 0.025;
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(15, 15, 15, 1),
-
       // AppBar
       appBar: AppBar(
           toolbarHeight: sHeight * 0.09,
@@ -30,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
           // Instagram Logo
           title: Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(sHeight * 0.005),
             child: Image.asset(
               "assets/images/instagram_name.png",
               height: sHeight * 0.06,
@@ -39,10 +41,17 @@ class _HomePageState extends State<HomePage> {
 
           // Messages Icon
           actions: [
-            SvgPicture.asset(
-              "assets/images/messages.svg",
-              color: Colors.white54,
-              height: iconSize,
+            GestureDetector(
+              child: SvgPicture.asset(
+                "assets/images/messages.svg",
+                color: Colors.white54,
+                height: iconSize,
+              ),
+              onTap: () {
+                print("Open Messages");
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MessagesPage()));
+              },
             ),
             SizedBox(
               width: 20,
@@ -52,7 +61,7 @@ class _HomePageState extends State<HomePage> {
       // Body
       body: Stack(
         children: [
-          // Full Screen Measurements for Sizing Purposes
+          // Full Screen Measurements for Sizing Purposesx
           Container(
             height: sHeight,
             width: sWidth,
@@ -66,6 +75,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: sHeight * 0.15,
                     child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
@@ -186,133 +196,152 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   // Sample Post
-                  Card(
-                    child: Container(
-                      padding: EdgeInsets.all(sHeight * 0.015),
-                      width: sWidth * 0.93,
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(30, 30, 30, 1.0),
-                          borderRadius: BorderRadius.circular(25)),
-                      child: Column(
-                        children: [
-                          // Post Header
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Container(
+                    height: 25000,
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (BuildContext context, int index) => Card(
+                        child: Container(
+                          padding: EdgeInsets.all(sHeight * 0.01),
+                          width: sWidth * 0.93,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(30, 30, 30, 1.0),
+                              borderRadius: BorderRadius.circular(25)),
+                          child: Column(
                             children: [
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: sWidth * 0.01,
-                                  vertical: sHeight * 0.003,
-                                ),
-                                // Post Profile Picture and Username
-                                child: Row(
-                                  children: [
-                                    // Post Profile Picture
-                                    ClipOval(
-                                        child: Image.asset(
-                                      "assets/images/pfp/ana_pfp.jpg",
-                                      height: sHeight * 0.05,
-                                    )),
-                                    SizedBox(
-                                      width: sWidth * 0.03,
+                              // Post Header
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: sWidth * 0.01,
+                                      vertical: sWidth * 0.01,
                                     ),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    // Post Profile Picture and Username
+                                    child: Row(
                                       children: [
-                                        // Post Name of User
-                                        Text(
-                                          " Ãna Patel",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              letterSpacing: 0.7,
-                                              fontSize: sHeight * 0.018),
+                                        // Post Profile Picture
+                                        ClipOval(
+                                            child: Image.asset(
+                                          "assets/images/pfp/ana_pfp.jpg",
+                                          height: sHeight * 0.05,
+                                        )),
+                                        SizedBox(
+                                          width: sWidth * 0.03,
                                         ),
-                                        // Post Username
-                                        Text(
-                                          " ana_p_1206",
-                                          style: TextStyle(
-                                              fontSize: sHeight * 0.015,
-                                              fontWeight: FontWeight.w300,
-                                              height: 0.9,
-                                              color: Colors.grey.shade400),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // Post Name of User
+                                            Text(
+                                              " Ãna Patel",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 0.7,
+                                                  fontSize: sHeight * 0.018),
+                                            ),
+                                            // Post Username
+                                            Text(
+                                              " ana_p_1206",
+                                              style: TextStyle(
+                                                  fontSize: sHeight * 0.015,
+                                                  fontWeight: FontWeight.w300,
+                                                  height: 0.9,
+                                                  color: Colors.grey.shade400),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                              // Post More Icon
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: sWidth * 0.015),
-                                child: Icon(
-                                  Icons.more_vert_rounded,
-                                  color: Colors.grey,
-                                  size: iconSize * 1.2,
-                                ),
-                              ),
-                            ],
-                          ),
-                          // Post Image
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              vertical: sHeight * 0.01,
-                            ),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.asset(
-                                    "assets/images/pfp/profile_picture.jpg")),
-                          ),
-                          // Post Action Buttons
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  // Post Like Button
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(left: sWidth * 0.02),
-                                    child: ShaderMask(
-                                      shaderCallback: (Rect bounds) {
-                                        return LinearGradient(
-                                                colors: [
-                                              Colors.red,
-                                              Colors.purple,
-                                              Colors.pink,
-                                              Colors.yellow,
-                                            ],
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight)
-                                            .createShader(bounds);
-                                      },
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: iconSize * 1.4,
-                                      ),
-                                    ),
                                   ),
-                                  // Post Comment Button
+                                  // Post More Icon
                                   Padding(
-                                    padding:
-                                        EdgeInsets.only(left: sWidth * 0.02),
-                                    child: SvgPicture.asset(
-                                      "assets/images/comment.svg",
-                                      color: Colors.grey.shade500,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: sWidth * 0.015),
+                                    child: Icon(
+                                      Icons.more_vert_rounded,
+                                      color: Colors.grey,
+                                      size: iconSize * 1.2,
                                     ),
                                   ),
                                 ],
                               ),
+                              // Post Image
                               Padding(
-                                padding: EdgeInsets.symmetric(horizontal: sWidth * 0.02),
-                                child: Icon(Icons.send_outlined, )
+                                padding: EdgeInsets.symmetric(
+                                  vertical: sHeight * 0.01,
+                                ),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: Image.asset(
+                                        posts[index % posts.length])),
+                              ),
+                              // Post Action Buttons
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: sHeight * 0.005),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        // Post Like Button
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: sWidth * 0.02),
+                                          child: ShaderMask(
+                                            shaderCallback: (Rect bounds) {
+                                              return LinearGradient(
+                                                      colors: [
+                                                    Colors.red,
+                                                    Colors.purple,
+                                                    Colors.pink,
+                                                    Colors.yellow,
+                                                  ],
+                                                      begin: Alignment.topLeft,
+                                                      end:
+                                                          Alignment.bottomRight)
+                                                  .createShader(bounds);
+                                            },
+                                            child: Icon(
+                                              Icons.favorite,
+                                              size: iconSize * 1.4,
+                                            ),
+                                          ),
+                                        ),
+                                        // Post Comment Button
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: sWidth * 0.02),
+                                          child: SvgPicture.asset(
+                                            "assets/images/comment.svg",
+                                            color: Colors.grey.shade500,
+                                            height: iconSize * 1.2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: sWidth * 0.02),
+                                        child: Icon(
+                                          Icons.send_outlined,
+                                          size: iconSize * 1.4,
+                                          color: Colors.grey.shade500,
+                                          weight: 0.5,
+                                        )),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
@@ -390,14 +419,23 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       flex: 4,
                       child: Center(
-                        child: Container(
-                          height: iconSize * 1.6,
-                          child: ClipOval(
-                            child: Image.asset(
-                              "assets/images/pfp/profile_picture.jpg",
-                              fit: BoxFit.fitHeight,
+                        child: GestureDetector(
+                          child: Container(
+                            height: iconSize * 1.6,
+                            child: ClipOval(
+                              child: Image.asset(
+                                "assets/images/pfp/profile_picture.jpg",
+                                fit: BoxFit.fitHeight,
+                              ),
                             ),
                           ),
+                          onTap: () {
+                            print("Open My Profile");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfilePage()));
+                          },
                         ),
                       ),
                     ),
@@ -423,4 +461,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+Future<void> _onRefresh() async {
+  return await Future.delayed(Durations.extralong4);
 }
